@@ -1,4 +1,5 @@
 
+import java.util.Collections;
 import java.util.LinkedList;
 import javax.swing.AbstractListModel;
 
@@ -24,6 +25,10 @@ public class AppaintmentModel extends AbstractListModel{
     @Override
     public Object getElementAt(int index) {
         return appointments.get(index);
+    }
+    public void sort(){
+        Collections.sort(appointments, new SortByDateTime());
+        fireContentsChanged(this, 0, appointments.size()-1);
     }
 
 }

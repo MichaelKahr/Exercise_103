@@ -1,10 +1,17 @@
+
+import javax.swing.JOptionPane;
+
+
 public class AppointmentGUI extends javax.swing.JFrame {
 
     /**
      * Creates new form AppointmentGUI
      */
+    private AppaintmentModel bl = new AppaintmentModel();
+
     public AppointmentGUI() {
         initComponents();
+        liOut.setModel(bl);
     }
 
     /**
@@ -16,21 +23,83 @@ public class AppointmentGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenu1 = new javax.swing.JMenu();
+        jmAdd = new javax.swing.JMenuItem();
+        jmDelete = new javax.swing.JMenuItem();
+        jmChange = new javax.swing.JMenuItem();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        liOut = new javax.swing.JList<>();
+
+        jMenu1.setText("Termin");
+
+        jmAdd.setText("hinzufügen");
+        jmAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmAddActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmAdd);
+
+        jmDelete.setText("löschen");
+        jmDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmDeleteActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmDelete);
+
+        jmChange.setText("ändern");
+        jmChange.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmChangeActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmChange);
+
+        jPopupMenu1.add(jMenu1);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        liOut.setComponentPopupMenu(jPopupMenu1);
+        jScrollPane1.setViewportView(liOut);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jmAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmAddActionPerformed
+        AppointmentDlg dialog = new AppointmentDlg(this, true);
+        dialog.setVisible(true);
+        if (dialog.isOK()) {
+            Appointment a = dialog.getA();
+            bl.add(a);
+        }
+        
+
+    }//GEN-LAST:event_jmAddActionPerformed
+
+    private void jmDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmDeleteActionPerformed
+        try{bl.remove(liOut.getSelectedValue());
+        }
+        catch(IndexOutOfBoundsException ix){
+            JOptionPane.showMessageDialog(null, "You can't delete nothing!");
+        }
+    }//GEN-LAST:event_jmDeleteActionPerformed
+
+    private void jmChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmChangeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmChangeActionPerformed
 
 
     public static void main(String args[]) {
@@ -66,5 +135,12 @@ public class AppointmentGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem jmAdd;
+    private javax.swing.JMenuItem jmChange;
+    private javax.swing.JMenuItem jmDelete;
+    private javax.swing.JList<Appointment> liOut;
     // End of variables declaration//GEN-END:variables
 }
