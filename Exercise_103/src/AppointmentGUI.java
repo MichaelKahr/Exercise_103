@@ -1,16 +1,25 @@
 
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
 
 public class AppointmentGUI extends javax.swing.JFrame {
 
     /**
      * Creates new form AppointmentGUI
      */
-    private AppaintmentModel bl = new AppaintmentModel();
+    public static AppaintmentModel bl = new AppaintmentModel();
+    private File f = new File("./list.ser");
 
     public AppointmentGUI() {
         initComponents();
+        try {
+            bl.load(f);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Something wrent wrong at loading the data!");
+        }
         liOut.setModel(bl);
     }
 
@@ -60,6 +69,11 @@ public class AppointmentGUI extends javax.swing.JFrame {
         jPopupMenu1.add(jMenu1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         liOut.setComponentPopupMenu(jPopupMenu1);
         jScrollPane1.setViewportView(liOut);
@@ -85,22 +99,34 @@ public class AppointmentGUI extends javax.swing.JFrame {
             Appointment a = dialog.getA();
             bl.add(a);
         }
-        
+
 
     }//GEN-LAST:event_jmAddActionPerformed
 
     private void jmDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmDeleteActionPerformed
-        try{bl.remove(liOut.getSelectedValue());
-        }
-        catch(IndexOutOfBoundsException ix){
+        try {
+            bl.remove(liOut.getSelectedValue());
+        } catch (IndexOutOfBoundsException ix) {
             JOptionPane.showMessageDialog(null, "You can't delete nothing!");
         }
     }//GEN-LAST:event_jmDeleteActionPerformed
 
     private void jmChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmChangeActionPerformed
-        // TODO add your handling code here:
+        AppointmentDlg dialog = new AppointmentDlg(this, true, liOut.getSelectedValue());
+        dialog.setVisible(true);
+        if (dialog.isOK()) {
+            Appointment a = dialog.getA();
+            bl.add(a);
+        }
     }//GEN-LAST:event_jmChangeActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            bl.save(f);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Something wrent wrong while saving!");
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

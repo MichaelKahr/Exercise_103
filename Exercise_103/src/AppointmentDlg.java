@@ -3,7 +3,6 @@ import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 
-
 /**
  *
  * @author mikeykahr
@@ -13,13 +12,30 @@ public class AppointmentDlg extends javax.swing.JDialog {
     /**
      * Creates new form AppointmentDlg
      */
+    private boolean edit = false;
+    private Appointment ap;
+
     public AppointmentDlg(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        edit = false;
     }
 
-        private boolean ok;
-        private Appointment a;
+    public AppointmentDlg(java.awt.Frame parent, boolean modal, Appointment ap) {
+        super(parent, modal);
+        this.ap = ap;
+        initComponents();
+        tfYear.setText(ap.getDate().getYear() + "");
+        tfMonth.setText(ap.getDate().getMonthValue() + "");
+        tfDay.setText(ap.getDate().getDayOfMonth() + "");
+        tfHour.setText(ap.getDate().getHour() + "");
+        tfMin.setText(ap.getDate().getMinute() + "");
+        tfText.setText(ap.getText());
+        edit = true;
+    }
+
+    private boolean ok;
+    private Appointment a;
 
     public boolean isOK() {
         return ok;
@@ -28,9 +44,7 @@ public class AppointmentDlg extends javax.swing.JDialog {
     public Appointment getA() {
         return a;
     }
-        
-        
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -204,18 +218,21 @@ public class AppointmentDlg extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAcceptActionPerformed
-        try{
-        a = new Appointment(LocalDateTime.of(Integer.parseInt(tfYear.getText()),Integer.parseInt(tfMonth.getText()),Integer.parseInt(tfDay.getText()),Integer.parseInt(tfHour.getText()),Integer.parseInt(tfMin.getText())),tfText.getText());
-        ok = true;
-        this.dispose();
-        }
-        catch(NumberFormatException ne){
+        try {
+            if (edit) {
+                AppointmentGUI.bl.remove(ap);
+                a = new Appointment(LocalDateTime.of(Integer.parseInt(tfYear.getText()), Integer.parseInt(tfMonth.getText()), Integer.parseInt(tfDay.getText()), Integer.parseInt(tfHour.getText()), Integer.parseInt(tfMin.getText())), tfText.getText());
+            } else {
+                a = new Appointment(LocalDateTime.of(Integer.parseInt(tfYear.getText()), Integer.parseInt(tfMonth.getText()), Integer.parseInt(tfDay.getText()), Integer.parseInt(tfHour.getText()), Integer.parseInt(tfMin.getText())), tfText.getText());
+            }
+            ok = true;
+            this.dispose();
+        } catch (NumberFormatException ne) {
             JOptionPane.showMessageDialog(null, "Please enter valid numbers for the date/time!");
-        }
-        catch(DateTimeException de){
+        } catch (DateTimeException de) {
             JOptionPane.showMessageDialog(null, "Please enter valid numbers for the time!");
         }
-        
+
     }//GEN-LAST:event_btAcceptActionPerformed
 
     private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelActionPerformed
