@@ -64,5 +64,10 @@ public void safe(File f)throws Exception{
         }
 
     }
+    
+    public void sortName(){
+        Collections.sort(appointments);
+        fireContentsChanged(this, 0, appointments.size()-1);
+    }
 
 }

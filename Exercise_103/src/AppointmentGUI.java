@@ -28,6 +28,7 @@ public class AppointmentGUI extends javax.swing.JFrame {
         jmAdd = new javax.swing.JMenuItem();
         jmDelete = new javax.swing.JMenuItem();
         jmChange = new javax.swing.JMenuItem();
+        jmSortName = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         liOut = new javax.swing.JList<>();
 
@@ -58,6 +59,14 @@ public class AppointmentGUI extends javax.swing.JFrame {
         jMenu1.add(jmChange);
 
         jPopupMenu1.add(jMenu1);
+
+        jmSortName.setText("SortByName");
+        jmSortName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmSortNameActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jmSortName);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -121,6 +130,10 @@ public class AppointmentGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    private void jmSortNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmSortNameActionPerformed
+        bl.sortName();
+    }//GEN-LAST:event_jmSortNameActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -160,6 +173,7 @@ public class AppointmentGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmAdd;
     private javax.swing.JMenuItem jmChange;
     private javax.swing.JMenuItem jmDelete;
+    private javax.swing.JMenuItem jmSortName;
     private javax.swing.JList<Appointment> liOut;
     // End of variables declaration//GEN-END:variables
 }

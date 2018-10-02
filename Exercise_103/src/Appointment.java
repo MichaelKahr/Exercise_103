@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Appointment implements Serializable {
+public class Appointment implements Serializable,Comparable<Appointment> {
 
     private LocalDateTime date;
     private String text;
@@ -26,6 +26,11 @@ public class Appointment implements Serializable {
     @Override
     public String toString() {
         return String.format("%s --> %s", date.format(dtf), text);
+    }
+
+    @Override
+    public int compareTo(Appointment o) {
+        return this.text.compareToIgnoreCase(o.text);
     }
 
 }
