@@ -1,4 +1,5 @@
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,25 +41,28 @@ public class AppaintmentModel extends AbstractListModel {
         fireContentsChanged(this, 0, appointments.size() - 1);
     }
 
-    public void save(File f) throws Exception {
-        try (FileOutputStream fos = new FileOutputStream(f);
-                ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-            oos.writeObject(appointments);
-            fos.close();
-            oos.close();
+public void safe(File f)throws Exception{
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
+
+        for (Appointment a : appointments) {
+            oos.writeObject(a);
         }
+
+        oos.flush();
+        oos.close();
     }
 
-    public void load(File f) throws Exception {
-        FileInputStream fis = null;
-        ObjectInputStream in = null;
-        try {
-            fis = new FileInputStream(f);
-            in = new ObjectInputStream(fis);
-            appointments = (LinkedList<Appointment>) in.readObject();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+    public void load(File f)throws Exception{
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+        try{
+            Appointment ap;
+        while((ap = (Appointment) ois.readObject()) != null){
+            appointments.add(ap);
         }
+        }catch(EOFException eof){
+
+        }
+
     }
 
 }

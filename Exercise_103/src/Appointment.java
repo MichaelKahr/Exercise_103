@@ -7,7 +7,8 @@ public class Appointment implements Serializable {
 
     private LocalDateTime date;
     private String text;
-    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH.mm");
+    private static transient DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH.mm");
+    
 
     public Appointment(LocalDateTime date, String text) {
         this.date = date;
